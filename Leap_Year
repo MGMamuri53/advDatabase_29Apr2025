@@ -1,0 +1,16 @@
+DECLARE
+    v_year NUMBER;
+    v_result VARCHAR(50);
+BEGIN
+    v_year := &Enter_Year;
+    IF (MOD(v_year, 400) = 0) THEN
+        v_result := v_year || ' is a leap year.';
+    ELSIF (MOD(v_year, 100) = 0) THEN
+        v_result := v_year || ' is NOT a leap year.';
+    ELSIF (MOD(v_year, 4) = 0) THEN
+        v_result := v_year || ' is a leap year.';
+    ELSE
+        v_result := v_year || ' is NOT a leap year.';
+    END IF;
+    DBMS_OUTPUT.PUT_LINE(v_result);
+END;
