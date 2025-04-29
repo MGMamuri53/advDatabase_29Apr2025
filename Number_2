@@ -1,1 +1,21 @@
+SET SERVEROUTPUT ON;
+    CREATE OR REPLACE FUNCTION func_CircleArea (v_intRadius IN OUT NUMBER, v_intArea IN OUT NUMBER) RETURN NUMBER IS
+        v_intPi   NUMBER :=3.14;
+    BEGIN
+        v_intArea := v_intPi * v_intRadius * v_intRadius;
+        RETURN v_intArea;
+    END;
 
+    DECLARE
+    v_intRadius NUMBER := &v_intRadius;  -- This will prompt you to enter the radius value
+    v_intArea   NUMBER := 0;
+    BEGIN
+    -- Call the function
+
+    DBMS_OUTPUT.PUT_LINE('Entered radius: ' || v_intRadius);
+    DBMS_OUTPUT.PUT_LINE('The area of the circle is: ' || func_CircleArea(v_intRadius, v_intArea));
+    END;
+
+    
+
+DROP FUNCTION func_CircleArea;
