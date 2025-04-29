@@ -1,0 +1,177 @@
+/*Activity 1. Create a schema and package level subprograms for each given question:
+
+1. (PROCEDURE) Given three numbers, display the highest and the lowest.
+   Ex. Enter number 1: 5
+       Enter number 2: 2
+       Enter number 3: 6
+       The highest of the 3 numbers is 6.
+       The lowest of the 3 numbers is 2
+2. Display the (FUNCTION) area, (FUNCTION) circumference and (FUNCTION) diameter of a circle given the radius.
+       Enter the radius: 10
+       The area of the circle is 314.16.
+       The circumference of the circle is 62.832.
+       The diameter of the circle is 12.   
+3. (FUNCTION) Tell whether a year is a leap year or not.
+       Enter year: 2025
+       2025 is NOT a leap year. 
+4. (FUNCTON) Given a number, display the sum of its digits.
+       Enter a number: 25
+       The sum of the digits is the number is 7
+
+Instructions:
+
+A. Put all the procedures and functions in one package (package level) named SUBPROGRAMS.
+B. Test all the schema/package level procedures/functions in an anonymous block or using the EXECUTE command.
+C. Screenshot all the codes and outputs (no text allowed) and submit it in .pdf format. Use the filename <surname1>_<surname2>_29Apr2025.pdf.
+D. Upload the file in the folder provided in MS Teams (ACTIVITY>28Apr2025).*/
+
+SET SERVEROUTPUT ON;
+    /*1. (PROCEDURE) Given three numbers, display the highest and the lowest.*/
+        CREATE OR REPLACE PROCEDURE prod_highestLowest (v_intFirstNum IN OUT INTEGER,v_intSecondNum IN OUT INTEGER,v_intThirdNum IN OUT INTEGER) IS
+            v_intHighestNum INTEGER := v_intFirstNum;
+            v_intLowestNum  INTEGER := v_intFirstNum;
+        BEGIN
+            IF v_intSecondNum > v_intHighestNum THEN
+                v_intHighestNum := v_intSecondNum;
+            END IF;
+            IF v_intThirdNum > v_intHighestNum THEN
+                v_intHighestNum := v_intThirdNum;
+            END IF;
+        
+            IF v_intSecondNum < v_intLowestNum THEN
+                v_intLowestNum := v_intSecondNum;
+            END IF;
+            IF v_intThirdNum < v_intLowestNum THEN
+                v_intLowestNum := v_intThirdNum;
+            END IF;
+        
+            DBMS_OUTPUT.PUT_LINE('The highest number is: ' || v_intHighestNum);
+            DBMS_OUTPUT.PUT_LINE('The lowest number is: ' || v_intLowestNum);
+        END;
+    /*2. Display the (FUNCTION) area, (FUNCTION) circumference and (FUNCTION) diameter of a circle given the radius.*/
+        CREATE OR REPLACE FUNCTION func_CircleArea (v_intRadius IN OUT NUMBER, v_intArea IN OUT NUMBER)
+            RETURN NUMBER IS
+                v_intPi   NUMBER :=3.14;
+            BEGIN
+                v_intArea := v_intPi * v_intRadius * v_intRadius;
+                RETURN v_intArea;
+            END;
+            
+        CREATE OR REPLACE FUNCTION func_CircleCircumference (v_intRadius IN OUT NUMBER, v_intCircumference IN OUT NUMBER)
+            RETURN NUMBER IS
+                v_intPi   NUMBER :=3.14;
+            BEGIN
+                v_intCircumference := 2 * v_intPi * v_intRadius;
+                RETURN v_intCircumference;
+            END;
+        
+        CREATE OR REPLACE FUNCTION func_CircleDiameter (v_intRadius IN OUT NUMBER, v_intDiameter IN OUT NUMBER)
+            RETURN NUMBER IS
+                v_intPi   NUMBER :=3.14;
+            BEGIN
+                v_intDiameter := 2 * v_intRadius;
+                RETURN v_intDiameter;
+            END;
+    /*3. (FUNCTION) Tell whether a year is a leap year or not.*/
+        CREATE OR REPLACE FUNCTION func_LeapYear (v_intYear IN INTEGER) RETURN VARCHAR IS
+            v_stringResult VARCHAR(50);
+        BEGIN
+            IF MOD(v_intYear, 400) = 0 THEN
+                v_stringResult := v_intYear || ' is a leap year.';
+            ELSIF MOD(v_intYear, 100) = 0 THEN
+                v_stringResult := v_intYear || ' is NOT a leap year.';
+            ELSIF MOD(v_intYear, 4) = 0 THEN
+                v_stringResult := v_intYear || ' is a leap year.';
+            ELSE
+                v_stringResult := v_intYear || ' is NOT a leap year.';
+            END IF;
+            RETURN v_stringResult;
+        END;
+    /*4. (FUNCTON) Given a number, display the sum of its digits.*/
+        CREATE OR REPLACE FUNCTION func_SumDigits (v_intNumber IN INTEGER) RETURN INTEGER IS
+            v_intSum INTEGER := 0;
+            v_tempNumber INTEGER := v_intNumber;
+        BEGIN
+            DBMS_OUTPUT.PUT_LINE('Enter a number: ' || v_intNumber);
+            WHILE v_tempNumber > 0 LOOP
+                v_intSum := v_intSum + MOD(v_tempNumber, 10); 
+                v_tempNumber := (v_tempNumber - MOD(v_tempNumber, 10)) / 10; 
+            END LOOP;
+            RETURN v_intSum;
+        END;
+    
+        
+      DECLARE
+      /*-----------Varables Section----------*/
+      /*----------Highest to Lowest----------*/
+        v_intNumber1            INTEGER := 0;
+        v_intNumber2            INTEGER := 0;
+        v_intNumber3            INTEGER := 0;
+      /*----------------Circle---------------*/
+        v_intRadius             NUMBER  := 0;
+        v_intArea               NUMBER  := 0;
+        v_intCircumference      NUMBER  := 0;
+        v_intDiameter           NUMBER  := 0;
+      /*--------------Leap Year--------------*/
+        v_intYear               INTEGER := 0;
+        v_stringResult          VARCHAR (50);
+      /*--------------Summation--------------*/
+        v_intNumber             INTEGER := 0;
+        v_intSum                INTEGER := 0;
+        
+      BEGIN
+      /*-------------Input Section-----------*/
+      /*-----------Highest to Lowest---------*/
+        v_intNumber1    :=      &v_intNumber1;
+        v_intNumber2    :=      &v_intNumber2;
+        v_intNumber3    :=      &v_intNumber3;
+      /*----------------Circle---------------*/
+        v_intRadius     :=      &v_intRadius;
+      /*--------------Leap Year--------------*/
+        v_intYear       :=      &v_intYear;
+      /*--------------Summation--------------*/
+        v_intNumber     :=      &v_intNumber;
+
+      
+      /*------------Output Section-----------*/
+      /*----------Highest to Lowest----------*/
+        DBMS_OUTPUT.PUT_LINE('1. (PROCEDURE) Given three numbers, display the highest and the lowest.');
+        prod_highestLowest(v_intNumber1, v_intNumber2, v_intNumber3);
+      /*----------------Circle---------------*/
+        DBMS_OUTPUT.PUT_LINE('2. Display the (FUNCTION) area, (FUNCTION) circumference and (FUNCTION) diameter of a circle given the radius.');
+        DBMS_OUTPUT.PUT_LINE('Entered radius: ' || v_intRadius);
+        DBMS_OUTPUT.PUT_LINE('The area of the circle is: ' || func_CircleArea(v_intRadius, v_intArea));
+        DBMS_OUTPUT.PUT_LINE('The circumference of the circle is: ' || func_CircleCircumference(v_intRadius, v_intCircumference));
+        DBMS_OUTPUT.PUT_LINE('The diameter of the circle is: ' || func_CircleDiameter(v_intRadius, v_intDiameter));
+      /*--------------Leap Year--------------*/
+        v_stringResult := func_LeapYear(v_intYear);
+        DBMS_OUTPUT.PUT_LINE('3. (FUNCTION) Tell whether a year is a leap year or not.');
+        DBMS_OUTPUT.PUT_LINE(v_stringResult);
+      /*--------------Summation--------------*/
+        DBMS_OUTPUT.PUT_LINE('4. (FUNCTON) Given a number, display the sum of its digits.');
+        v_intSum := func_SumDigits(v_intNumber);
+        DBMS_OUTPUT.PUT_LINE('The sum of the digits in the number is: ' || v_intSum);
+      END;
+      
+      
+CREATE OR REPLACE PACKAGE SUBPROGRAMS IS
+    PROCEDURE prod_highestLowest;
+    FUNCTION func_CircleArea(radius NUMBER) RETURN NUMBER;
+    FUNCTION func_CircleCircumference(radius NUMBER) RETURN NUMBER;
+    FUNCTION func_CircleDiameter(radius NUMBER) RETURN NUMBER;
+    FUNCTION func_LeapYear(year NUMBER) RETURN VARCHAR;
+    FUNCTION func_SumDigits(v_intNumber INTEGER) RETURN INTEGER;
+END SUBPROGRAMS;
+
+CREATE OR REPLACE PACKAGE BODY SUBPROGRAMS IS
+
+
+DROP PROCEDURE prod_highestLowest;
+DROP FUNCTION  func_CircleArea;
+DROP FUNCTION  func_CircleCircumference;
+DROP FUNCTION  func_CircleDiameter;
+DROP FUNCTION  func_LeapYear;
+DROP FUNCTION  func_SumDigits;
+
+
+
